@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="header">
+        <h2>My To-Do List</h2>
+        <a routerLink="/add" class="btn btn-primary">Add New Task</a>
+    </div>
+
+    <div class="task-grid">
+        <div *ngFor="let task of tasks" class="task-card" [ngClass]="{'completed': task.status === 'completed'}">
+            <div class="task-header">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <span class="badge" [ngClass]="task.priority">{{ task.priority }}</span>
+            </div>
+            <p class="task-desc">{{ task.description }}</p>
+            <div class="task-meta">
+                <span *ngIf="task.dueDate">Due: {{ task.dueDate | date:'short' }}</span>
+                <span class="status-text">{{ task.status }}</span>
+            </div>
+            <div class="task-actions">
+                <button (click)="toggleStatus(task)" class="btn btn-sm btn-outline">
+                    {{ task.status === 'completed' ? 'Undo' : 'Complete' }}
+                </button>
+                <a [routerLink]="['/edit', task._id]" class="btn btn-sm btn-secondary">Edit</a>
+                <button (click)="deleteTask(task._id!)" class="btn btn-sm btn-danger">Delete</button>
+            </div>
+        </div>
+
+        <div *ngIf="tasks.length === 0" class="no-tasks">
+            <p>No tasks found. Add one!</p>
+        </div>
+    </div>
+</div>
